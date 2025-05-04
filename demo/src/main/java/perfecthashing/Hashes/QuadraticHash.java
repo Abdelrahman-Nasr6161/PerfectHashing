@@ -1,9 +1,5 @@
 package perfecthashing.Hashes;
 
-import static org.junit.Assert.fail;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 public class QuadraticHash {
@@ -34,7 +30,7 @@ public class QuadraticHash {
         this.size = 0;
         this.rehashes = 0;
         this.p = getPrime(15_000_000);
-        rehash(keys);
+        rehash(this.keys);
     }
     public int getRehashes()
     {
