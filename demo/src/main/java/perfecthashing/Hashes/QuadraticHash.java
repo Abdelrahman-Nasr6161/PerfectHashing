@@ -40,14 +40,37 @@ public class QuadraticHash {
     {
         return size;
     }
+    private void rehash(String[] keys , String newWord)
+    {
+        while (true) {
+            boolean exit = false;
+            for (int i = 0 ; i < 100 ; i ++ )
+            {
+                a = rand.nextInt(p-1) + 1;
+                b = rand.nextInt(p);
+                table = new String[m];
+                if (tryHashing(keys,newWord))
+                {
+                    exit = true;
+                    break;
+                }
+            }
+            if(exit)
+            {
+                break;
+            }
+            n++;
+            m = n*n;
+            if(m>1e7)
+            {
+                System.out.println("Maximum Table Size reached");
+                System.exit(-1);
+            }
+        }
+    }
     private void rehash(String [] keys)
     {
         while (true) {
-            System.out.println("n is currently : " + n);
-            System.out.println("m is currently : " + m);
-            System.out.println("a is currently : " + a);
-            System.out.println("b is currently : " + b);
-            System.out.println("p is currently : " + p);
             boolean exit = false;
             for (int i = 0 ; i < 10 ; i ++ )
             {
@@ -73,6 +96,26 @@ public class QuadraticHash {
             }
         }
     }
+    private boolean tryHashing(String[] keys, String word)
+    {
+        Arrays.fill(table, null);
+        int newIdx = hash(word);
+        for (String key : keys)
+        {
+            int index = hash(key);
+            if(index == newIdx)
+            {
+                return false;
+            }
+            if (table[index] != null)
+            {
+                return false;
+            }
+            table[index] = key;
+        }
+        Arrays.fill(table, null);
+        return true;
+    }
     private boolean tryHashing(String[] keys)
     {
         Arrays.fill(table, null);
@@ -84,39 +127,70 @@ public class QuadraticHash {
                 return false;
             }
             table[index] = key;
-            size++;
         }
         Arrays.fill(table, null);
-        size = 0;
         return true;
     }
     public boolean insert(String key) {
         int index = hash(key);
+        if(table[index]!= null && table[index].equals(key))
+        {
+            System.out.println("Already in table");
+            return false;
+        }
         if (size + 1 > n) {
             resize();
             rehashes++;
             index = hash(key); // Recalculate index after resize
         }
-    
         if (table[index] != null) {
-            if (!knownCorpus) {
-                String[] existing_keys = Arrays.stream(table).filter(Objects::nonNull).toArray(String[]::new);
-                rehash(existing_keys);
-                for (String word : existing_keys) {
-                    int idx = hash(word);
-                    table[idx] = word;
-                    size++;
-                }
-                index = hash(key); // Recalculate index after rehash
-            } else {
-                return false;
-            }
+            String[] exist = Arrays.stream(table).filter(Objects::nonNull).toArray(String[]::new);
+            rehash(exist, key);
+            index = hash(key);
         }
-    
         table[index] = key;
         size++;
-        System.out.println("Item inserted");
+        // System.out.println("Item inserted");
         return true;
+    }
+    public boolean contains(String key)
+    {
+        int index = hash(key);
+        if (table[index]!=null && table[index].equals(key))
+        {
+            System.out.println("Found");
+            return true;
+        }
+        System.out.println("Not found");
+        return false;
+    }
+    public void batchInsert(String path) {
+        try (Scanner scanner = new Scanner(new java.io.File(path))) {
+            int i = 0;
+            while (scanner.hasNextLine()) {
+                String key = scanner.nextLine().trim();
+                if (!key.isEmpty()) {
+                    insert(key);
+                }
+                i++;
+            }
+            System.out.println(i+" lines");
+        } catch (java.io.IOException e) {
+            System.out.println("Error reading file: " + e.getMessage());
+        }
+    }
+
+    public void batchDelete(String path) {
+        try (Scanner scanner = new Scanner(new java.io.File(path))) {
+            while (scanner.hasNextLine()) {
+                String key = scanner.nextLine().trim();
+                if (!key.isEmpty()) {
+                    delete(key);
+                }
+            }
+        } catch (java.io.IOException e) {
+            System.out.println("Error reading file: " + e.getMessage());
+        }
     }
     public boolean delete(String key)
     {
@@ -139,6 +213,7 @@ public class QuadraticHash {
             System.out.print(key+ " ");
         }
         System.out.println();
+        System.out.println(existing_keys.length+"this is table length");
     }
     private void resize()
     {
@@ -153,6 +228,7 @@ public class QuadraticHash {
         {
             this.insert(key);
         }
+        size = existingKeys.length;
     }
     private int getPrime(int min)
     {
