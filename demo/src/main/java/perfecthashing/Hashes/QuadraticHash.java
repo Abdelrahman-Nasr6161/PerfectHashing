@@ -2,17 +2,24 @@ package perfecthashing.Hashes;
 
 import java.util.*;
 
+import lombok.Getter;
+
 public class QuadraticHash {
     private static final Random rand = new Random();
-    private int a, b, p, m;
+    private int a, b, p;
+    @Getter
+    private int m;
+    @Getter
     private String[] table;
     private String[] keys;
+    @Getter
     private int size = 0;        // tracks number of inserted keys
+    @Getter
     private int n;
+    @Getter
     private int rehashes;
-    private boolean knownCorpus;
     public QuadraticHash() {
-        this.n = 1;           // initial estimate
+        this.n = 64;           // initial estimate
         this.rehashes = 0;
         this.size = 0;
         this.m = n * n;
@@ -20,25 +27,15 @@ public class QuadraticHash {
         a = rand.nextInt(p-1) + 1;
         b = rand.nextInt(p);
         table = new String[m];
-        knownCorpus = false;
     }
     public QuadraticHash(String[] keys) {
         this.keys = keys;
-        knownCorpus = true;
         this.n = keys.length;
         this.m = n*n;
         this.size = 0;
         this.rehashes = 0;
         this.p = getPrime(15_000_000);
         rehash(this.keys);
-    }
-    public int getRehashes()
-    {
-        return rehashes;
-    }
-    public int getSize()
-    {
-        return size;
     }
     private void rehash(String[] keys , String newWord)
     {
@@ -138,15 +135,10 @@ public class QuadraticHash {
             System.out.println("Already in table");
             return false;
         }
-        if (size + 1 > n) {
+        while (size + 1 > n || table[index] != null) {
             resize();
             rehashes++;
             index = hash(key); // Recalculate index after resize
-        }
-        if (table[index] != null) {
-            String[] exist = Arrays.stream(table).filter(Objects::nonNull).toArray(String[]::new);
-            rehash(exist, key);
-            index = hash(key);
         }
         table[index] = key;
         size++;
