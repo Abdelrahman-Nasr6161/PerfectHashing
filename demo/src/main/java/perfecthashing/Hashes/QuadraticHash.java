@@ -147,7 +147,7 @@ public class QuadraticHash {
         System.out.println("Item inserted");
         return true;
     }
-    public boolean contains(String key)
+    public boolean search(String key)
     {
         int index = hash(key);
         if (table[index]!=null && table[index].equals(key))

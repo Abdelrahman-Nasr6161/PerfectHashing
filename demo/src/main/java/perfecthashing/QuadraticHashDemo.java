@@ -8,8 +8,5 @@ public class QuadraticHashDemo {
         map2.batchInsert("data.txt");
         map2.display();
         System.out.println(map2.getSize());
-        map2.batchDelete("data.txt");
-        map2.display();
-        System.out.println(map2.getSize());
     }
 }
