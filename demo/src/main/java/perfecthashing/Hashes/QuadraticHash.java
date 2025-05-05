@@ -134,7 +134,6 @@ public class QuadraticHash implements IHash {
         int index = hash(key);
         if(table[index]!= null && table[index].equals(key))
         {
-            System.out.println("Already in table");
             return false;
         }
         while (size + 1 > n || table[index] != null) {
@@ -144,7 +143,6 @@ public class QuadraticHash implements IHash {
         }
         table[index] = key;
         size++;
-        System.out.println("Item inserted");
         return true;
     }
     public boolean search(String key)
@@ -152,10 +150,8 @@ public class QuadraticHash implements IHash {
         int index = hash(key);
         if (table[index]!=null && table[index].equals(key))
         {
-            System.out.println("Found");
             return true;
         }
-        System.out.println("Not found");
         return false;
     }
     public void batchInsert(String path) {
@@ -191,12 +187,10 @@ public class QuadraticHash implements IHash {
         int index = hash(key);
         if (table[index]==null || !table[index].equals(key))
         {
-            System.out.println("Item not in Hashmap");
             return false;
         }
         size--;
         table[index] = null;
-        System.out.println("Item Deleted");
         return true;
     }
     public void display()
@@ -207,7 +201,7 @@ public class QuadraticHash implements IHash {
             System.out.print(key+ " ");
         }
         System.out.println();
-        System.out.println(existing_keys.length+"this is table length");
+        System.out.println(existing_keys.length+" this is table length");
     }
     private void resize()
     {
