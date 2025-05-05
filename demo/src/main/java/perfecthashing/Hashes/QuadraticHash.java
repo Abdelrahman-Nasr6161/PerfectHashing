@@ -4,7 +4,7 @@ import java.util.*;
 
 import lombok.Getter;
 
-public class QuadraticHash {
+public class QuadraticHash implements IHash {
     private static final Random rand = new Random();
     private int a, b, p;
     @Getter
