@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import perfecthashing.Hashes.IHash;
 import perfecthashing.Hashes.QuadraticHash;
+import perfecthashing.Hashes.LinearHash;
 
 public class Main {
     public static void main(String[] args) {
@@ -21,9 +22,9 @@ public class Main {
                 break;
 
             case 2:
-                throw new UnsupportedOperationException("o(n) hashing is not implemented yet.");
-            // dictionary = new ();
-            // break;
+                // throw new UnsupportedOperationException("o(n) hashing is not implemented yet.");
+                dictionary = new LinearHash();
+                break;
             default:
                 System.out.println("Invalid choice!");
                 System.exit(1);
