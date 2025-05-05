@@ -37,34 +37,35 @@ public class QuadraticHash {
         this.p = getPrime(15_000_000);
         rehash(this.keys);
     }
-    private void rehash(String[] keys , String newWord)
-    {
-        while (true) {
-            boolean exit = false;
-            for (int i = 0 ; i < 100 ; i ++ )
-            {
-                a = rand.nextInt(p-1) + 1;
-                b = rand.nextInt(p);
-                table = new String[m];
-                if (tryHashing(keys,newWord))
-                {
-                    exit = true;
-                    break;
-                }
-            }
-            if(exit)
-            {
-                break;
-            }
-            n++;
-            m = n*n;
-            if(m>1e7)
-            {
-                System.out.println("Maximum Table Size reached");
-                System.exit(-1);
-            }
-        }
-    }
+    //UNUSED rehash function
+    // private void rehash(String[] keys , String newWord)
+    // {
+    //     while (true) {
+    //         boolean exit = false;
+    //         for (int i = 0 ; i < 100 ; i ++ )
+    //         {
+    //             a = rand.nextInt(p-1) + 1;
+    //             b = rand.nextInt(p);
+    //             table = new String[m];
+    //             if (tryHashing(keys,newWord))
+    //             {
+    //                 exit = true;
+    //                 break;
+    //             }
+    //         }
+    //         if(exit)
+    //         {
+    //             break;
+    //         }
+    //         n++;
+    //         m = n*n;
+    //         if(m>1e7)
+    //         {
+    //             System.out.println("Maximum Table Size reached");
+    //             System.exit(-1);
+    //         }
+    //     }
+    // }
     private void rehash(String [] keys)
     {
         while (true) {
@@ -93,26 +94,27 @@ public class QuadraticHash {
             }
         }
     }
-    private boolean tryHashing(String[] keys, String word)
-    {
-        Arrays.fill(table, null);
-        int newIdx = hash(word);
-        for (String key : keys)
-        {
-            int index = hash(key);
-            if(index == newIdx)
-            {
-                return false;
-            }
-            if (table[index] != null)
-            {
-                return false;
-            }
-            table[index] = key;
-        }
-        Arrays.fill(table, null);
-        return true;
-    }
+    // UNUSED tryHashing function
+    // private boolean tryHashing(String[] keys, String word)
+    // {
+    //     Arrays.fill(table, null);
+    //     int newIdx = hash(word);
+    //     for (String key : keys)
+    //     {
+    //         int index = hash(key);
+    //         if(index == newIdx)
+    //         {
+    //             return false;
+    //         }
+    //         if (table[index] != null)
+    //         {
+    //             return false;
+    //         }
+    //         table[index] = key;
+    //     }
+    //     Arrays.fill(table, null);
+    //     return true;
+    // }
     private boolean tryHashing(String[] keys)
     {
         Arrays.fill(table, null);
@@ -142,7 +144,7 @@ public class QuadraticHash {
         }
         table[index] = key;
         size++;
-        // System.out.println("Item inserted");
+        System.out.println("Item inserted");
         return true;
     }
     public boolean contains(String key)
