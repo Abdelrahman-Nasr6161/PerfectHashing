@@ -88,30 +88,43 @@ public class LinearHash implements IHash {
         return false;
     }
 
-    public void batchInsert(String filename) {
-        try (Scanner scanner = new Scanner(new java.io.File(filename))) {
-            int i = 0;
+    public void batchInsert(String path) {
+        try (Scanner scanner = new Scanner(new java.io.File(path))) {
+            int newEntries = 0;
+            int existingEntries = 0;
             while (scanner.hasNextLine()) {
                 String key = scanner.nextLine().trim();
                 if (!key.isEmpty()) {
-                    insert(key);
+                    boolean newEntry = insert(key);
+                    if (newEntry)
+                        newEntries++;
+                    else
+                        existingEntries++;
                 }
-                i++;
             }
-            System.out.println(i+" lines");
+            System.out.println("Inserted " + newEntries + " entries in the table");
+            System.out.println(existingEntries + " entries already exist in the table");
         } catch (java.io.IOException e) {
-            System.err.println("Error reading file: " + e.getMessage());
+            System.out.println("Error reading file: " + e.getMessage());
         }
     }
 
-    public void batchDelete(String filename) {
-        try (Scanner scanner = new Scanner(new java.io.File(filename))) {
+    public void batchDelete(String path) {
+        try (Scanner scanner = new Scanner(new java.io.File(path))) {
+            int deletedEntries = 0;
+            int nonExistingEntries = 0;
             while (scanner.hasNextLine()) {
                 String key = scanner.nextLine().trim();
                 if (!key.isEmpty()) {
-                    delete(key);
+                    boolean deleted = delete(key);
+                    if (deleted)
+                        deletedEntries++;
+                    else
+                        nonExistingEntries++;
                 }
             }
+            System.out.println("Deleted " + deletedEntries + " entries from the table");
+            System.out.println(nonExistingEntries + " entries don't exist in the table");
         } catch (java.io.IOException e) {
             System.out.println("Error reading file: " + e.getMessage());
         }

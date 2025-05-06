@@ -13,8 +13,13 @@ public class Main {
 
         System.out.println("Choose hashing method: \n1. o(n^2)\n2. o(n)");
         int mainChoice = -1;
-        mainChoice = scanner.nextInt();
-        scanner.nextLine();
+        try {
+            mainChoice = scanner.nextInt();
+            scanner.nextLine();
+        } catch (Exception e) {
+            System.out.println("Invalid input");
+            System.exit(1);
+        }
 
         switch (mainChoice) {
             case 1:
@@ -22,7 +27,8 @@ public class Main {
                 break;
 
             case 2:
-                // throw new UnsupportedOperationException("o(n) hashing is not implemented yet.");
+                // throw new UnsupportedOperationException("o(n) hashing is not implemented
+                // yet.");
                 dictionary = new LinearHash();
                 break;
             default:
@@ -38,8 +44,15 @@ public class Main {
                     "1. Insert a string \n2. Delete a string \n3. Search for a string \n4. Batch insert a list of strings \n5. Batch delete a list of strings \n6. Display table \n7. Exit");
 
             String str;
-            subChoice = scanner.nextInt();
-            scanner.nextLine();
+            try {
+                subChoice = scanner.nextInt();
+                scanner.nextLine();
+            } catch (Exception e) {
+                System.out.println("Invalid input");
+                scanner.nextLine();
+                continue;
+            }
+
             switch (subChoice) {
                 case 1:
                     System.out.println("Enter the string to insert:");

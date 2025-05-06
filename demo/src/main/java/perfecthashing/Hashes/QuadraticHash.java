@@ -160,15 +160,20 @@ public class QuadraticHash implements IHash {
     }
     public void batchInsert(String path) {
         try (Scanner scanner = new Scanner(new java.io.File(path))) {
-            int i = 0;
+            int newEntries = 0;
+            int existingEntries = 0;
             while (scanner.hasNextLine()) {
                 String key = scanner.nextLine().trim();
                 if (!key.isEmpty()) {
-                    insert(key);
+                    boolean newEntry = insert(key);
+                    if (newEntry)
+                        newEntries++;
+                    else
+                        existingEntries++;
                 }
-                i++;
             }
-            System.out.println(i+" lines");
+            System.out.println("Inserted " + newEntries + " entries in the table");
+            System.out.println(existingEntries + " entries already exist in the table");
         } catch (java.io.IOException e) {
             System.out.println("Error reading file: " + e.getMessage());
         }
@@ -176,16 +181,25 @@ public class QuadraticHash implements IHash {
 
     public void batchDelete(String path) {
         try (Scanner scanner = new Scanner(new java.io.File(path))) {
+            int deletedEntries = 0;
+            int nonExistingEntries = 0;
             while (scanner.hasNextLine()) {
                 String key = scanner.nextLine().trim();
                 if (!key.isEmpty()) {
-                    delete(key);
+                    boolean deleted = delete(key);
+                    if (deleted)
+                        deletedEntries++;
+                    else
+                        nonExistingEntries++;
                 }
             }
+            System.out.println("Deleted " + deletedEntries + " entries from the table");
+            System.out.println(nonExistingEntries + " entries don't exist in the table");
         } catch (java.io.IOException e) {
             System.out.println("Error reading file: " + e.getMessage());
         }
     }
+
     public boolean delete(String key)
     {
         int index = hash(key);
