@@ -6,6 +6,7 @@ public class LinearHash implements IHash {
     private QuadraticHash[] secondLevel;
     private String[] firstLevel;
     private int flSize;
+    private int totalElements = 0;
     private int totalRehashes = 0;
     private int a, b;
     Random rand = new Random();
@@ -32,28 +33,33 @@ public class LinearHash implements IHash {
         
         int index = firstLevelHash(key);
         
-        // Check first level
-        if (firstLevel[index] == null) {
-            firstLevel[index] = key;
-            return true;
-        } 
         // Exists in first level
-        else if (firstLevel[index].equals(key)) {
+        if (firstLevel[index] != null && firstLevel[index].equals(key)) {
             return false;
         }
-        // Handle collision
+        // Exists in second level
+        if (secondLevel[index] != null && secondLevel[index].search(key)) {
+            return false;
+        }
+        // Insert into first level
+        if (firstLevel[index] == null) {
+            firstLevel[index] = key;
+            totalElements++;
+            return true;
+        }
+        // Handle collision (second level)
         else {
             String existingKey = firstLevel[index];
             firstLevel[index] = null;
             
             if (secondLevel[index] == null) {
                 secondLevel[index] = new QuadraticHash();
-                secondLevel[index].insert(existingKey);
             }
-            
-            boolean result = secondLevel[index].insert(key);
-            totalRehashes += secondLevel[index].getRehashes();
-            return result;
+
+            secondLevel[index].insert(existingKey);
+            boolean inserted = secondLevel[index].insert(key);
+            if (inserted) totalElements++;
+            return inserted;
         }
     }
 
@@ -64,11 +70,14 @@ public class LinearHash implements IHash {
         // Check first level
         if (firstLevel[index] != null && firstLevel[index].equals(key)) {
             firstLevel[index] = null;
+            totalElements--;
             return true;
         }
         // Check second level
         if (secondLevel[index] != null) {
-            return secondLevel[index].delete(key);
+            boolean deleted = secondLevel[index].delete(key);
+            if (deleted) totalElements--;
+            return deleted;
         }
         return false;
     }
@@ -131,16 +140,7 @@ public class LinearHash implements IHash {
     }
 
     public int getSize() {
-        int count = 0;
-        // first level
-        for (String key : firstLevel) {
-            if (key != null) count++;
-        }
-        // second level
-        for (QuadraticHash qh : secondLevel) {
-            if (qh != null) count += qh.getSize();
-        }
-        return count;
+       return totalElements;
     }
 
     public void display() {
