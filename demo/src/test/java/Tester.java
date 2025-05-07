@@ -124,4 +124,20 @@ public class Tester {
         hashMap.batchDelete("data.txt");
         assertEquals(hashMap.getSize(), 0);
     }
+    @Test
+    public void HeavyDutyBatchInsert()
+    {
+        QuadraticHash hashMap = new QuadraticHash();
+        hashMap.batchInsert("heavy.txt");
+        assertEquals(hashMap.getSize(), 10000);
+    }
+    @Test
+    public void HeavyDutyBatchDelete()
+    {
+        QuadraticHash hashMap = new QuadraticHash();
+        hashMap.batchInsert("heavy.txt");
+        assertEquals(hashMap.getSize(), 10000);
+        hashMap.batchDelete("heavy.txt");
+        assertEquals(hashMap.getSize(), 0);
+    }
 }

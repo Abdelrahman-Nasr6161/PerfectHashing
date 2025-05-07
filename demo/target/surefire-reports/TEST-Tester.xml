@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="Tester" time="0.296" tests="8" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="Tester" time="3.104" tests="10" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="23"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-23\bin"/>
-    <property name="sun.java.command" value="C:\Users\lenovo\AppData\Local\Temp\surefire11947480420697504557\surefirebooter-20250507202950446_3.jar C:\Users\lenovo\AppData\Local\Temp\surefire11947480420697504557 2025-05-07T20-29-50_326-jvmRun1 surefire-20250507202950446_1tmp surefire_0-20250507202950446_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\lenovo\AppData\Local\Temp\surefire7147530718257931533\surefirebooter-20250507203515755_3.jar C:\Users\lenovo\AppData\Local\Temp\surefire7147530718257931533 2025-05-07T20-35-15_628-jvmRun1 surefire-20250507203515755_1tmp surefire_0-20250507203515755_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="D:\College\Year 2\Semester 2\Data Structures and Algorithms\Labs\Lab 3\PerfectHashing\demo\target\test-classes;D:\College\Year 2\Semester 2\Data Structures and Algorithms\Labs\Lab 3\PerfectHashing\demo\target\classes;C:\Users\lenovo\.m2\repository\org\projectlombok\lombok\1.18.32\lombok-1.18.32.jar;C:\Users\lenovo\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\lenovo\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\lenovo\AppData\Local\Temp\surefire11947480420697504557\surefirebooter-20250507202950446_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\lenovo\AppData\Local\Temp\surefire7147530718257931533\surefirebooter-20250507203515755_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="23+37-2369"/>
@@ -61,14 +61,26 @@
   <testcase name="QuadraticInsert1" classname="Tester" time="0.006"/>
   <testcase name="QuadraticInsert2" classname="Tester" time="0.0"/>
   <testcase name="QuadraticInsert3" classname="Tester" time="0.0"/>
-  <testcase name="QuadraticBatchDelete" classname="Tester" time="0.135">
+  <testcase name="HeavyDutyBatchDelete" classname="Tester" time="1.56">
+    <system-out><![CDATA[Inserted 10000 entries in the table
+0 entries already exist in the table
+Deleted 10000 entries from the table
+0 entries don't exist in the table
+]]></system-out>
+  </testcase>
+  <testcase name="HeavyDutyBatchInsert" classname="Tester" time="1.283">
+    <system-out><![CDATA[Inserted 10000 entries in the table
+0 entries already exist in the table
+]]></system-out>
+  </testcase>
+  <testcase name="QuadraticBatchDelete" classname="Tester" time="0.097">
     <system-out><![CDATA[Inserted 3000 entries in the table
 0 entries already exist in the table
 Deleted 3000 entries from the table
 0 entries don't exist in the table
 ]]></system-out>
   </testcase>
-  <testcase name="QuadraticBatchInsert" classname="Tester" time="0.093">
+  <testcase name="QuadraticBatchInsert" classname="Tester" time="0.09">
     <system-out><![CDATA[Inserted 3000 entries in the table
 0 entries already exist in the table
 ]]></system-out>
