@@ -3,11 +3,11 @@ package perfecthashing.Hashes;
 import java.util.*;
 
 public class LinearHash implements IHash {
+    private double LOAD_FACTOR = 0.7;
     private QuadraticHash[] secondLevel;
     private String[] firstLevel;
-    private int flSize;
+    private int capacity;
     private int totalElements = 0;
-    private int totalRehashes = 0;
     private int a, b;
     Random rand = new Random();
 
@@ -16,20 +16,23 @@ public class LinearHash implements IHash {
     }
 
     public LinearHash(int initialSize) {
-        this.flSize = initialSize;
-        this.firstLevel = new String[flSize];
-        this.secondLevel = new QuadraticHash[flSize];
-        this.totalRehashes = 0;
+        this.capacity = Math.max(initialSize, 16);
+        this.firstLevel = new String[capacity];
+        this.secondLevel = new QuadraticHash[capacity];
         this.a = rand.nextInt(Integer.MAX_VALUE);
         this.b = rand.nextInt(Integer.MAX_VALUE);
     }
 
     private int firstLevelHash(String key) {
-        return Math.abs((a * key.hashCode() + b)) % flSize;
+        return (int)((a * key.hashCode() + b) >>> 16) % capacity;
     }
 
     public boolean insert(String key) {
         if (key == null) return false;
+
+        if (totalElements >= capacity * LOAD_FACTOR) {  // Good performance until a load factor of 0.7
+            resize();
+        }
         
         int index = firstLevelHash(key);
         
@@ -61,6 +64,29 @@ public class LinearHash implements IHash {
             if (inserted) totalElements++;
             return inserted;
         }
+    }
+
+    private void resize() {
+        int newCapacity = capacity * 2;
+        LinearHash newHash = new LinearHash(newCapacity);
+        
+        for (String key : firstLevel) {
+            if (key != null) newHash.insert(key);
+        }
+        
+        for (QuadraticHash qh : secondLevel) {
+            if (qh != null) {
+                for (String key : qh.getTable()) {
+                    if (key != null) newHash.insert(key);
+                }
+            }
+        }
+        
+        this.firstLevel = newHash.firstLevel;
+        this.secondLevel = newHash.secondLevel;
+        this.capacity = newCapacity;
+        this.a = newHash.a;
+        this.b = newHash.b;
     }
 
     public boolean delete(String key) {
