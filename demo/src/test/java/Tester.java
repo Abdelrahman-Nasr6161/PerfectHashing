@@ -7,6 +7,7 @@ import java.util.HashMap;
 import org.junit.Test;
 
 import perfecthashing.Hashes.QuadraticHash;
+import perfecthashing.Hashes.LinearHash;
 
 public class Tester {
     @Test
@@ -138,6 +139,122 @@ public class Tester {
         hashMap.batchInsert("heavy.txt");
         assertEquals(hashMap.getSize(), 10000);
         hashMap.batchDelete("heavy.txt");
+        assertEquals(hashMap.getSize(), 0);
+    }
+
+    @Test
+    public void LinearInsert1()
+    {
+        LinearHash hashMap = new LinearHash();
+        String word = "hello";
+        assertTrue(hashMap.insert(word));
+    }
+    @Test
+    public void LinearInsert2()
+    {
+        LinearHash hashMap = new LinearHash();
+        String word = "hello";
+        String word2 = "Hi";
+        String word3 = "Bye";
+        String word4 = "How are you doing ?";
+        assertTrue(hashMap.insert(word));
+        assertTrue(hashMap.insert(word2));
+        assertTrue(hashMap.insert(word3));
+        assertTrue(hashMap.insert(word4));
+    }
+    @Test
+    public void LinearInsert3()
+    {
+        LinearHash hashMap = new LinearHash();
+        String[] words = {
+            "Apple", "Apricot", "Avocado", "Banana", "Blackberry", "Blueberry", "Boysenberry", "Cantaloupe",
+            "Cherry", "Clementine", "Coconut", "Cranberry", "Currant", "Date", "Dragonfruit", "Durian",
+            "Elderberry", "Feijoa", "Fig", "Goji Berry", "Gooseberry", "Grape", "Grapefruit", "Guava",
+            "Honeydew", "Huckleberry", "Jackfruit", "Jambul", "Jujube", "Kiwi", "Kumquat", "Lemon",
+            "Lime", "Longan", "Loquat", "Lychee", "Mandarin", "Mango", "Mangosteen", "Melon",
+            "Mulberry", "Nance", "Nectarine", "Olive", "Orange", "Papaya", "Passionfruit", "Peach",
+            "Pear", "Persimmon", "Pineapple", "Pitaya", "Plantain", "Plum", "Pomegranate", "Pomelo",
+            "Prickly Pear", "Quince", "Raisin", "Rambutan", "Raspberry", "Redcurrant", "Salak", "Satsuma",
+            "Star Apple", "Starfruit", "Strawberry", "Surinam Cherry", "Tamarillo", "Tamarind", "Tangerine", "Tomato",
+            "Ugli Fruit", "Watermelon", "White Currant", "White Sapote", "Yuzu", "Ziziphus", "Atemoya", "Ackee",
+            "Barbadine", "Bilberry", "Breadfruit", "Buddha's Hand", "Camu Camu", "Canistel", "Capuli Cherry", "Chico",
+            "Cloudberry", "Crowberry", "Cupuacu", "Desert Lime", "Emu Apple", "Gac", "Genip", "Grumichama",
+            "Hog Plum", "Illawarra Plum", "Jocote", "Kabosu"
+        };
+            for (String word : words)
+            {
+                assertTrue(hashMap.insert(word));
+            }
+    }
+    @Test
+    public void LinearDelete1()
+    {
+        LinearHash hashMap = new LinearHash();
+        hashMap.insert("Hello");
+        assertTrue(hashMap.delete("Hello"));
+    }
+    @Test
+    public void LinearDelete2()
+    {
+        LinearHash hashMap = new LinearHash();
+        String word = "hello";
+        String word2 = "Hi";
+        String word3 = "Bye";
+        String word4 = "How are you doing ?";
+        assertTrue(hashMap.insert(word));
+        assertTrue(hashMap.insert(word2));
+        assertTrue(hashMap.insert(word3));
+        assertTrue(hashMap.insert(word4));
+        assertTrue(hashMap.delete(word4));
+        assertTrue(hashMap.delete(word));
+        assertTrue(hashMap.delete(word2));
+        assertTrue(hashMap.delete(word3));
+        assertEquals(hashMap.getSize(), 0);
+    }
+    @Test
+    public void LinearDelete3()
+    {
+        LinearHash hashMap = new LinearHash();
+        String[] words = {
+            "Apple", "Apricot", "Avocado", "Banana", "Blackberry", "Blueberry", "Boysenberry", "Cantaloupe",
+            "Cherry", "Clementine", "Coconut", "Cranberry", "Currant", "Date", "Dragonfruit", "Durian",
+            "Elderberry", "Feijoa", "Fig", "Goji Berry", "Gooseberry", "Grape", "Grapefruit", "Guava",
+            "Honeydew", "Huckleberry", "Jackfruit", "Jambul", "Jujube", "Kiwi", "Kumquat", "Lemon",
+            "Lime", "Longan", "Loquat", "Lychee", "Mandarin", "Mango", "Mangosteen", "Melon",
+            "Mulberry", "Nance", "Nectarine", "Olive", "Orange", "Papaya", "Passionfruit", "Peach",
+            "Pear", "Persimmon", "Pineapple", "Pitaya", "Plantain", "Plum", "Pomegranate", "Pomelo",
+            "Prickly Pear", "Quince", "Raisin", "Rambutan", "Raspberry", "Redcurrant", "Salak", "Satsuma",
+            "Star Apple", "Starfruit", "Strawberry", "Surinam Cherry", "Tamarillo", "Tamarind", "Tangerine", "Tomato",
+            "Ugli Fruit", "Watermelon", "White Currant", "White Sapote", "Yuzu", "Ziziphus", "Atemoya", "Ackee",
+            "Barbadine", "Bilberry", "Breadfruit", "Buddha's Hand", "Camu Camu", "Canistel", "Capuli Cherry", "Chico",
+            "Cloudberry", "Crowberry", "Cupuacu", "Desert Lime", "Emu Apple", "Gac", "Genip", "Grumichama",
+            "Hog Plum", "Illawarra Plum", "Jocote", "Kabosu"
+        };
+            for (String word : words)
+            {
+                assertTrue(hashMap.insert(word));
+            }
+            for (String word : words)
+            {
+                assertTrue(hashMap.delete(word));
+            }
+            assertEquals(hashMap.getSize(),0);
+    }
+    @Test
+    public void LinearBatchInsertMil()
+    {
+        LinearHash hashMap = new LinearHash();
+        hashMap.batchInsert("dataLin.txt");
+        assertEquals(hashMap.getSize(), 1000000);
+
+    }
+    @Test
+    public void LinearBatchDeleteMil()
+    {
+        LinearHash hashMap = new LinearHash();
+        hashMap.batchInsert("dataLin.txt");
+        assertEquals(hashMap.getSize(), 1000000);
+        hashMap.batchDelete("dataLin.txt");
         assertEquals(hashMap.getSize(), 0);
     }
 }

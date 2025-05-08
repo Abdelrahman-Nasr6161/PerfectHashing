@@ -8,6 +8,7 @@ public class LinearHash implements IHash {
     private String[] firstLevel;
     private int capacity;
     private int totalElements = 0;
+    private int rehashes = 0;
     private int a, b;
     Random rand = new Random();
 
@@ -87,6 +88,7 @@ public class LinearHash implements IHash {
         this.capacity = newCapacity;
         this.a = newHash.a;
         this.b = newHash.b;
+        this.rehashes += newHash.rehashes + 1;
     }
 
     public boolean delete(String key) {
@@ -169,6 +171,10 @@ public class LinearHash implements IHash {
        return totalElements;
     }
 
+    public int getRehashes() {
+        return rehashes;
+     }
+
     public void display() {
         int totalElements = getSize();
         // First level keys
@@ -184,5 +190,6 @@ public class LinearHash implements IHash {
         
         System.out.println();
         System.out.println("This is table length: " + totalElements);
+        // System.out.println("This is table rehashes: " + rehashes);
     }
 }
