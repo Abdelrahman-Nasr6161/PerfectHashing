@@ -1,3 +1,3 @@
-with open('data.txt','w') as F:
-    for i in range(3000):
+with open('heavy.txt','w') as F:
+    for i in range(10000):
         F.write(f"{i}\n")

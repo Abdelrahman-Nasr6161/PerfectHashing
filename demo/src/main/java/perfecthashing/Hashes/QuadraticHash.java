@@ -17,10 +17,10 @@ public class QuadraticHash implements IHash {
     @Getter
     private int n;
     @Getter
-    private int rehashes;
+    private int rebuilds;
     public QuadraticHash() {
         this.n = 64;           // initial estimate
-        this.rehashes = 0;
+        this.rebuilds = 0;
         this.size = 0;
         this.m = n * n;
         this.p = getPrime(15_000_000);
@@ -33,7 +33,7 @@ public class QuadraticHash implements IHash {
         this.n = keys.length;
         this.m = n*n;
         this.size = 0;
-        this.rehashes = 0;
+        this.rebuilds = 0;
         this.p = getPrime(15_000_000);
         rehash(this.keys);
     }
@@ -139,7 +139,6 @@ public class QuadraticHash implements IHash {
         }
         while (size + 1 > n || table[index] != null) {
             resize();
-            rehashes++;
             index = hash(key); // Recalculate index after resize
         }
         table[index] = key;
@@ -237,6 +236,7 @@ public class QuadraticHash implements IHash {
             this.insert(key);
         }
         size = existingKeys.length;
+        rebuilds++;
     }
     private int getPrime(int min)
     {
